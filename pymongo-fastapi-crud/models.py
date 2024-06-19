@@ -1,6 +1,6 @@
 import uuid
 from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr #Email용
 
 class Book(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
@@ -30,5 +30,39 @@ class BookUpdate(BaseModel):
                 "title": "Don Quixote",
                 "author": "Miguel de Cervantes",
                 "synopsis": "Don Quixote is a Spanish novel by Miguel de Cervantes..."
+            }
+        }
+
+
+#User
+
+class User(BaseModel):
+    id: str = Field(default_factory=uuid.uuid4, alias="_id")
+    username: str = Field(...)
+    email: EmailStr = Field(...)
+    hashed_password: str = Field(...)
+    
+    class Config:
+        allow_population_by_field_name = True
+        schema_extra = {
+            "example": {
+                "_id": "1",
+                "username": "funky",
+                "email": "minjung@example.com",
+                "hashed_password": "hashedpassword"
+            }
+        }
+
+class UserCreate(BaseModel):
+    username: str = Field(...)
+    email: EmailStr = Field(...)
+    password: str = Field(...)
+    
+    class Config:
+        schema_extra = {
+            "example": {
+                "username": "funky",
+                "email": "minjung@example.com",
+                "password": "password"
             }
         }
