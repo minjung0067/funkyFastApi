@@ -4,11 +4,20 @@ from dotenv import dotenv_values
 from pymongo import MongoClient
 from routes import router as book_router
 from user_routes import router as user_router
+from fastapi.middleware.cors import CORSMiddleware
 
 # 환경 변수를 로드하고 가져올 수 있는 패키지
 config = dotenv_values(".env")
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 모든 도메인 허용
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # uvicorn 때 실행
 @app.on_event("startup")
@@ -32,3 +41,4 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 @app.get("/")
 def read_root():
     return {"message": "Hello World"}
+
