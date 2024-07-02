@@ -35,18 +35,16 @@ class BookUpdate(BaseModel):
 
 
 #User
-
 class User(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    username: str = Field(...)
-    email: EmailStr = Field(...)
-    hashed_password: str = Field(...)
+    id: Optional[str] = Field(default_factory=lambda: str(uuid.uuid4()))
+    username: str
+    email: EmailStr
+    hashed_password: str
     
     class Config:
         allow_population_by_field_name = True
         schema_extra = {
             "example": {
-                "_id": "1",
                 "username": "funky",
                 "email": "minjung@example.com",
                 "hashed_password": "hashedpassword"
@@ -54,14 +52,26 @@ class User(BaseModel):
         }
 
 class UserCreate(BaseModel):
-    username: str = Field(...)
-    email: EmailStr = Field(...)
-    password: str = Field(...)
+    username: str
+    email: EmailStr
+    password: str
     
     class Config:
         schema_extra = {
             "example": {
                 "username": "funky",
+                "email": "minjung@example.com",
+                "password": "password"
+            }
+        }
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+    
+    class Config:
+        schema_extra = {
+            "example": {
                 "email": "minjung@example.com",
                 "password": "password"
             }

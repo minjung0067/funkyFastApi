@@ -36,7 +36,7 @@ app.include_router(book_router, tags=["books"], prefix="/book")
 app.include_router(user_router, tags=["users"], prefix="/user")
 
 # 정적 파일 제공 설정
-app.mount("/static", StaticFiles(directory="static"), name="static")
+#app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
 def read_root():
